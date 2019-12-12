@@ -92,9 +92,35 @@ class Ball {
     //changeColor();
   }
 
+  public void checkCollisionWithBoard(Board board) {
+    if (isCollidingWithObject(board)) {
+      if (this.xCoordinate < board.startX + 25) {
+        displacementX *= -1;
+        System.out.println("xDisplacement  = " + displacementX + "yDisplacement  = " + displacementY + "\n");
+      }
+
+      if (this.xCoordinate > board.startX + board.getWidth() - 25) {
+        System.out.println("xDisplacement  = " + displacementX + "yDisplacement  = " + displacementY + "\n");
+        displacementX *= -1;
+      }
+
+      displacementY *= -1;
+    }
+  }
+
   public boolean isCollidingWithObject(Reflectable obj) {
-    return !isObjectOutsideBoardHorizontally(obj.getStartX(), obj.getWidth()) 
-    && isTouchingObjectVertically(obj.getStartY(), obj.getHeight());
+    return !isObjectOutsideBoardHorizontally(obj.getStartX(), obj.getWidth())
+      && isTouchingObjectVertically(obj.getStartY(), obj.getHeight());
+  }
+
+
+  public boolean isObjectOutsideBoardHorizontally(float startX, int objWidth) {
+    return this.xCoordinate < startX || this.xCoordinate > startX + objWidth;
+  }
+
+  public boolean isTouchingObjectVertically(float startY, int objHeight) {
+    return this.yCoordinate == startY - objHeight
+      || this.yCoordinate == startY + objHeight;
   }
 
   private void changeColor() {
@@ -104,14 +130,5 @@ class Ball {
     }
 
     this.ballColor = colors.redColor;
-  }
-
-  public boolean isObjectOutsideBoardHorizontally(float startX, int objWidth) {
-    return this.xCoordinate < startX || this.xCoordinate > startX + objWidth;
-  }
-
-  public boolean isTouchingObjectVertically(float startY, int objHeight) {
-    return this.yCoordinate == startY - objHeight 
-      || this.yCoordinate == startY + objHeight;
   }
 }
