@@ -5,12 +5,13 @@ class GameController {
   private Colors colors = new Colors();
   private ArrayList<Block> blocks = new ArrayList<Block>(CAPACITY);
   private int blockFiredCount = 0;
+  private boolean isGamePaused = false;
 
   GameController() {
     board = new Board(width / 2, height - 50);
-    ball = new Ball(width / 2 - 200, height - 50 - 200, 20);
+    ball = new Ball(width / 2, 200, 20);
     ball.setXDisplacement(3);
-    ball.setYDisplacement(-5);
+    ball.setYDisplacement(5);
     initBlocks();
   }
 
@@ -21,6 +22,17 @@ class GameController {
     checkCollisionWithBlocks();
     checkWinOrLoss();
     showBlockFiredCount();
+    showIfGameIsPaused();
+  }
+
+  public void playGame() {
+    isGamePaused = false;
+    loop();
+  }
+
+  public void pauseGame() {
+    isGamePaused = true;
+    noLoop();
   }
 
   private void initBlocks() {
@@ -64,6 +76,7 @@ class GameController {
 
   private void checkIfWon() {
     if (blockFiredCount == CAPACITY) {
+      background(155);
       fill(colors.greenColor);
       textSize(30);
       text("You won!", (width / 2) - (30 * 2), height / 2);
@@ -83,5 +96,12 @@ class GameController {
   private void showBlockFiredCount() {
     textSize(15);
     text("Blocks Fired : " + blockFiredCount, width - 200, 50);
+  }
+
+  private void showIfGameIsPaused() {
+    if (isGamePaused) {
+      textSize(15);
+      text("Click anywhere to play", (width / 2) - (30 * 2), height / 2);
+    }
   }
 }
