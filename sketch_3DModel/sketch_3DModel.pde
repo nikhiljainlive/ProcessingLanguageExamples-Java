@@ -25,5 +25,6 @@ void draw() {
   x += changeValue;
   y += changeValue;
   
+  // this condition moves the box diagonally
   if(x <= 100 || x >= width - 100) changeValue *= -1; 
 }
